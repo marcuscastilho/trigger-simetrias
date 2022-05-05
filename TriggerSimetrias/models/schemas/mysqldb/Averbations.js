@@ -137,6 +137,10 @@ const AverbationsSchema = {
     type: DataTypes.DOUBLE,
     field: "valor_container",
   },
+  taxes_value: {
+    type: DataTypes.DOUBLE,
+    field: "valor_impostos",
+  },
   simetrias_anchor: {
     type: DataTypes.CHAR,
     field: "url_simetrias",
