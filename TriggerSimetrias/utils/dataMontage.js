@@ -34,7 +34,7 @@ module.exports = {
         codigo_pais: "",
         indicativo_urbano: isUrban(assure),
         valor_segurado: String(assure.charge_value).replace(".", ","),
-        valor_segurado_container: assure.container_value,
+        valor_segurado_container: String(assure.container_value).replace(".", ","),
         valor_segurado_frete: "",
         valor_segurado_despesa: "",
         valor_segurado_lucros: "",
