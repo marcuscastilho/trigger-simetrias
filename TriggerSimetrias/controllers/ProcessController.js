@@ -71,7 +71,7 @@ class ProcessController {
           await Averbations.update(
             {
               send_insurance_system: 1,
-              code_insurance_system: "500",
+              code_insurance_system: "",
               log_insurance_system: err.message,
               send_insurance_system_date: moment().format("YYYY-MM-DD HH:mm:ss")
             },
