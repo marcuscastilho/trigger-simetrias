@@ -9,8 +9,8 @@ module.exports = {
       multimodal: null,
     };
 
-    const { tipo_transporte } = assure;
+    const { transport_type } = assure;
 
-    return objectModal[tipo_transporte] || null;
+    return objectModal[transport_type] || null;
   },
 };

@@ -1,7 +1,7 @@
 module.exports = {
   isRcfdc: (assure) => {
-    const { ramo } = assure;
+    const { branch_code } = assure;
 
-    return ramo == "55" ? "S" : "N";
+    return branch_code == "55" ? "S" : "N";
   }
 }

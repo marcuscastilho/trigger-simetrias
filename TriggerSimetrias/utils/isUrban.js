@@ -1,7 +1,7 @@
 module.exports = {
   isUrban : (assure) => {
-    const { perimetro } = assure;
+    const { perimeter } = assure;
 
-    return perimetro == "urbano" ? "S" : "N";
+    return perimeter == "urbano" ? "S" : "N";
   }
 }

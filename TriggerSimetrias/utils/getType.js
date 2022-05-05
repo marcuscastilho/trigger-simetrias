@@ -1,9 +1,9 @@
 module.exports = {
   getType: (assure) => {
-    const { tipo_documento } = assure;
-    if (tipo_documento == "cte") return "C";
-    if (tipo_documento == "nfe") return "N";
-    if (tipo_documento == "mdfe") return "M";
+    const { document_type } = assure;
+    if (document_type == "cte") return "C";
+    if (document_type == "nfe") return "N";
+    if (document_type == "mdfe") return "M";
     return null;
   },
 };

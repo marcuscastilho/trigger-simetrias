@@ -1,15 +1,23 @@
 {
   "name": "trigger-simetrias",
   "version": "1.0.0",
-  "description": "",
+  "main": "index.js",
+  "author": "Marcus Castilho",
+  "license": "MIT",
   "scripts": {
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "@pedroentringer/custom-soap": "^1.0.2",
+    "@pedroentringer/json2xml": "^1.0.7",
+    "chalk": "^4.1.2",
     "dotenv": "^16.0.0",
+    "moment": "^2.29.3",
+    "moment-timezone": "^0.5.34",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.17.0"
+    "sequelize": "^6.17.0",
+    "xml2json": "^0.12.0"
   },
   "devDependencies": {}
 }

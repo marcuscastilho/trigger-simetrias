@@ -1,9 +1,9 @@
 module.exports = {
   getEvent: (assure) => {
-      const { codigo_evento } = assure;
+      const { event_code } = assure;
   
-      if (codigo_evento == 100) return "E";
-      if (codigo_evento == 101) return "C";
+      if (event_code == 100) return "E";
+      if (event_code == 101) return "C";
       return null;
   }
 }

@@ -157,6 +157,10 @@ const AverbationsSchema = {
     type: DataTypes.CHAR,
     field: "sistema_assegurador",
   },
+  send_insurance_system_date: {
+    type: DataTypes.DATE,
+    field: "data_envio_sistema_assegurador",
+  },
   send_insurance_system: {
     type: DataTypes.BOOLEAN,
     field: "enviado_simetrias",

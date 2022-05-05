@@ -9,36 +9,37 @@ const { isRcfdc } = require("./isRcfdc");
 module.exports = {
   dataMontage: (assure) => {
     try {
+
       const data = {
         codigo_fornecedor: 8,
         tipo_operacao: getEvent(assure),
         tipo_documento: getType(assure),
-        cnpj_cliente: assure.emitente,
-        codigo_ramo: assure.ramo,
+        cnpj_cliente: assure.issuer,
+        codigo_ramo: assure.branch_code == "55" ? "54" : assure.branch_code,
         numero_caixa_postal: "",
         serie_documento: assure.serie,
-        numero_conhecimento: assure.chave,
-        data_emissao_documento: moment(new Date(assure.data_emissao)).format(
+        numero_conhecimento: assure.document_key,
+        data_emissao_documento: moment(new Date(assure.emission_date)).format(
           "DD/MM/YYYY"
         ),
-        data_saida_documento: moment(new Date(assure.data_emissao)).format(
+        data_saida_documento: moment(new Date(assure.averbation_date)).format(
           "DD/MM/YYYY"
         ),
         indicativo_ddr: isDdr(assure),
         tipo_transporte: getModel(assure),
-        sigla_uf_origem: assure.uf_origem,
-        codigo_cidade_origem: assure.ibge_origem,
-        sigla_uf_destino: assure.uf_destino,
-        codigo_cidade_destino: assure.ibge_destino,
+        sigla_uf_origem: assure.initial_uf,
+        codigo_cidade_origem: assure.initial_ibge,
+        sigla_uf_destino: assure.final_uf,
+        codigo_cidade_destino: assure.final_ibge,
         codigo_pais: "",
         indicativo_urbano: isUrban(assure),
-        valor_segurado: String(assure.valor_mercadoria).replace(".", ","),
-        valor_segurado_container: assure.valor_container,
+        valor_segurado: String(assure.charge_value).replace(".", ","),
+        valor_segurado_container: assure.container_value,
         valor_segurado_frete: "",
         valor_segurado_despesa: "",
         valor_segurado_lucros: "",
         valor_segurado_impostos: "",
-        identificacao_veiculo: "",
+        identificacao_veiculo: "ABC1234",
         indicativo_cobertura_rcfdc: isRcfdc(assure),
         tipo_mercadoria: "G",
         indicativo_operacao_ocd: "N",
@@ -48,30 +49,32 @@ module.exports = {
         filial: "",
         apolice: 0,
         subgrupo: 0,
-        cnpj_embarcador: assure.remetente
-          ? assure.remetente.padStart(14, "0")
-          : null,
-        data_comunicacao_embarque: moment(
-          new Date(assure.data_embarque)
+        cnpj_embarcador: assure.sender
+          ? assure.sender.padStart(14, "0")
+          : "",
+        data_comunicacao_embarque: assure.boarding_date ? moment(
+          new Date(assure.boarding_date)
+        ).format("DD/MM/YYYY HH:mm:ss") : moment(
+          new Date(assure.averbation_date)
         ).format("DD/MM/YYYY HH:mm:ss"),
         indicativo_operacao_rctrvi: "",
         veiculo_proprio: "",
-        observacoes: assure.observacoes || "",
+        observacoes: assure.observation || "",
         indicativo_operacao_avarias: "",
         codigo_modelo_documento: "",
-        identificacao_estabelecimento_tomador: "",
+        identificacao_estabelecimento_tomador: assure.responsible_insurance ? assure.responsible_insurance.padStart(14, "0") : "",
         identificacao_email: "",
         desconto_nota_fiscal_valor: "",
         complemento_origem: "",
         complemento_destino: "",
-        numero_documento: assure.numero_documento,
-        numero_averbacao_oficial: "",
+        numero_documento: assure.document_number,
+        numero_averbacao_oficial: assure.averbation_number,
         numero_manifesto:
-          getType(assure) === "M" ? assure.numero_documento : "",
+          getType(assure) === "M" ? assure.document_number : "",
         descricao_chancela_extrator: "",
         indicativo_contingencia: "",
-        cnpj_ddr: assure.cnpj_ddr,
-        cnpj_emissor: assure.emitente,
+        cnpj_ddr: assure.ddr_cnpj ? assure.ddr_cnpj : "",
+        cnpj_emissor: assure.issuer,
       };
 
       let xml = {
@@ -85,7 +88,7 @@ module.exports = {
           G: data.serie_documento,
           H: data.numero_conhecimento,
           I: data.data_emissao_documento,
-          J: data.data_saida_documento,
+          J: data.data_comunicacao_embarque,
           K: data.indicativo_ddr,
           L: data.tipo_transporte,
           M: data.sigla_uf_origem,
@@ -134,7 +137,7 @@ module.exports = {
 
       const document = {
         id: assure.id,
-        url: assure.url_simetrias,
+        url: assure.simetrias_anchor,
         xml,
       };
 

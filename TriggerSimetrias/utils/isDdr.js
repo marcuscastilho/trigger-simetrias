@@ -1,6 +1,6 @@
 module.exports = {
-  isDdr: () => {
-    const { cnpj_ddr } = assure;
-    return cnpj_ddr ? "S" : "N";
+  isDdr: (assure) => {
+    const { ddr_cnpj } = assure;
+    return ddr_cnpj ? "S" : "N";
   },
 };
