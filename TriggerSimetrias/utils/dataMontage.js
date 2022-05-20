@@ -1,44 +1,47 @@
-const moment = require("moment");
+const moment = require("moment-timezone");
 const { getEvent } = require("./getEvent");
 const { getType } = require("./getType");
 const { isDdr } = require("./isDdr");
 const { getModel } = require("./getModal");
 const { isUrban } = require("./isUrban");
 const { isRcfdc } = require("./isRcfdc");
+const { replaceCnpj } = require("./replaceCnpj");
 
 module.exports = {
   dataMontage: (assure) => {
     try {
-
       const data = {
         codigo_fornecedor: 8,
         tipo_operacao: getEvent(assure),
         tipo_documento: getType(assure),
-        cnpj_cliente: assure.issuer,
+        cnpj_cliente: replaceCnpj(assure.issuer),
         codigo_ramo: assure.branch_code == "55" ? "54" : assure.branch_code,
         numero_caixa_postal: "",
         serie_documento: assure.serie,
         numero_conhecimento: assure.document_key,
-        data_emissao_documento: moment(new Date(assure.emission_date)).format(
-          "DD/MM/YYYY"
-        ),
-        data_saida_documento: moment(new Date(assure.averbation_date)).format(
-          "DD/MM/YYYY"
-        ),
+        data_emissao_documento: moment(assure.emission_date)
+          .utc()
+          .format("DD/MM/YYYY"),
+        data_saida_documento: moment(assure.averbation_date)
+          .utc()
+          .format("DD/MM/YYYY"),
         indicativo_ddr: isDdr(assure),
         tipo_transporte: getModel(assure),
         sigla_uf_origem: assure.initial_uf,
         codigo_cidade_origem: assure.initial_ibge,
         sigla_uf_destino: assure.final_uf,
         codigo_cidade_destino: assure.final_ibge,
-        codigo_pais: "",
+        codigo_pais: "55",
         indicativo_urbano: isUrban(assure),
         valor_segurado: String(assure.charge_value).replace(".", ","),
-        valor_segurado_container: String(assure.container_value).replace(".", ","),
-        valor_segurado_frete: String(freigth_value).replace(".", ","),
+        valor_segurado_container: String(assure.container_value).replace(
+          ".",
+          ","
+        ),
+        valor_segurado_frete: String(assure.freigth_value).replace(".", ","),
         valor_segurado_despesa: "",
         valor_segurado_lucros: "",
-        valor_segurado_impostos: String(taxes_value).replace(".", ","),
+        valor_segurado_impostos: String(assure.taxes_value).replace(".", ","),
         identificacao_veiculo: "ABC1234",
         indicativo_cobertura_rcfdc: isRcfdc(assure),
         tipo_mercadoria: "G",
@@ -49,33 +52,32 @@ module.exports = {
         filial: "",
         apolice: 0,
         subgrupo: 0,
-        cnpj_embarcador: assure.sender
-          ? assure.sender.padStart(14, "0")
-          : "",
-        data_comunicacao_embarque: assure.boarding_date ? moment(
-          new Date(assure.boarding_date)
-        ).format("DD/MM/YYYY HH:mm:ss") : moment(
-          new Date(assure.averbation_date)
-        ).format("DD/MM/YYYY HH:mm:ss"),
+        cnpj_embarcador: assure.sender ? replaceCnpj(assure.sender) : "",
+        data_comunicacao_embarque: assure.boarding_date
+          ? moment(assure.boarding_date).utc().format("DD/MM/YYYY HH:mm:ss")
+          : moment(assure.averbation_date).utc().format("DD/MM/YYYY HH:mm:ss"),
         indicativo_operacao_rctrvi: "",
         veiculo_proprio: "",
         observacoes: assure.observation || "",
         indicativo_operacao_avarias: "",
         codigo_modelo_documento: "",
-        identificacao_estabelecimento_tomador: assure.responsible_insurance ? assure.responsible_insurance.padStart(14, "0") : "",
+        identificacao_estabelecimento_tomador: assure.responsible_insurance
+          ? replaceCnpj(assure.responsible_insurance)
+          : "",
         identificacao_email: "",
         desconto_nota_fiscal_valor: "",
         complemento_origem: "",
         complemento_destino: "",
         numero_documento: assure.document_number,
         numero_averbacao_oficial: assure.averbation_number,
-        numero_manifesto:
-          getType(assure) === "M" ? assure.document_number : "",
+        numero_manifesto: getType(assure) === "M" ? assure.document_number : "",
         descricao_chancela_extrator: "",
         indicativo_contingencia: "",
-        cnpj_ddr: assure.ddr_cnpj ? assure.ddr_cnpj : "",
-        cnpj_emissor: assure.issuer,
+        cnpj_ddr: assure.ddr_cnpj ? replaceCnpj(assure.ddr_cnpj) : "",
+        cnpj_emissor: replaceCnpj(assure.issuer),
       };
+
+      console.log(JSON.stringify(data));
 
       let xml = {
         viagem: {
@@ -131,7 +133,7 @@ module.exports = {
           BA: data.descricao_chancela_extrator,
           BB: data.indicativo_contingencia,
           BC: data.cnpj_ddr,
-          BC: data.cnpj_emissor,
+          BD: data.cnpj_emissor,
         },
       };
 

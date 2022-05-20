@@ -13,6 +13,10 @@ class ProcessController {
   async main() {
     try {
       const { batch } = await BatchController.findOne();
+
+      const year = moment().format("YYYY");
+      const date = moment(`${year}-05-01`).format("YYYY-MM-DD");
+
       const averbations = await Averbations.findAll({
         include: [
           {
@@ -25,18 +29,14 @@ class ProcessController {
           },
         ],
         where: {
-          send_insurance_system: false,
-          is_pending: false,
-          insurance_system: "simetrias",
-          simetrias_anchor: {
-            [Op.not]: null,
+          id: {
+            [Op.in]: [88904],
           },
-          '$Smartbox->InsuranceCompany.envio_habilitado$': true
+          smartbox_id: 312,
         },
-        limit: batch,
       });
 
-
+      console.log("quantidade de averbações", averbations.length);
       for (const averbation of averbations) {
         try {
           if (
@@ -59,7 +59,9 @@ class ProcessController {
               send_insurance_system: 1,
               code_insurance_system: code,
               log_insurance_system: description,
-              send_insurance_system_date: moment().format("YYYY-MM-DD HH:mm:ss")
+              send_insurance_system_date: moment().format(
+                "YYYY-MM-DD HH:mm:ss"
+              ),
             },
             {
               where: {
@@ -72,7 +74,9 @@ class ProcessController {
             {
               send_insurance_system: 1,
               log_insurance_system: err.message,
-              send_insurance_system_date: moment().format("YYYY-MM-DD HH:mm:ss")
+              send_insurance_system_date: moment().format(
+                "YYYY-MM-DD HH:mm:ss"
+              ),
             },
             {
               where: {
@@ -82,6 +86,8 @@ class ProcessController {
           );
         }
       }
+
+      console.log("acabou");
     } catch (err) {
       console.log(err);
     }
