@@ -40,13 +40,13 @@ module.exports = {
         ),
         valor_segurado_frete: String(assure.freigth_value).replace(".", ","),
         valor_segurado_despesa: "",
-        valor_segurado_lucros: "",
+        valor_segurado_lucros: String(assure.profit_value).replace(".", ","),
         valor_segurado_impostos: String(assure.taxes_value).replace(".", ","),
         identificacao_veiculo: "ABC1234",
         indicativo_cobertura_rcfdc: isRcfdc(assure),
         tipo_mercadoria: "G",
-        indicativo_operacao_ocd: "N",
-        indicativo_operacao_lancamento: "N",
+        indicativo_operacao_ocd: assure.is_ocd ? "S" : "N",
+        indicativo_operacao_ocdi: assure.is_ocdi ? "S" : "N",
         indicativo_operacao_movimentacao: "N",
         indicativo_operacao_transbordo: "N",
         filial: "",
@@ -59,7 +59,7 @@ module.exports = {
         indicativo_operacao_rctrvi: "",
         veiculo_proprio: "",
         observacoes: assure.observation || "",
-        indicativo_operacao_avarias: "",
+        indicativo_operacao_avarias: assure.breakdown_value ? "S" : "N",
         codigo_modelo_documento: "",
         identificacao_estabelecimento_tomador: assure.responsible_insurance
           ? replaceCnpj(assure.responsible_insurance)
@@ -76,8 +76,6 @@ module.exports = {
         cnpj_ddr: assure.ddr_cnpj ? replaceCnpj(assure.ddr_cnpj) : "",
         cnpj_emissor: replaceCnpj(assure.issuer),
       };
-
-      console.log(JSON.stringify(data));
 
       let xml = {
         viagem: {
@@ -109,7 +107,7 @@ module.exports = {
           AB: data.indicativo_cobertura_rcfdc,
           AC: data.tipo_mercadoria,
           AD: data.indicativo_operacao_ocd,
-          AE: data.indicativo_operacao_lancamento,
+          AE: data.indicativo_operacao_ocdi,
           AF: data.indicativo_operacao_movimentacao,
           AG: data.indicativo_operacao_transbordo,
           AH: data.filial,

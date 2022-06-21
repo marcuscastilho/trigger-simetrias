@@ -13,10 +13,6 @@ class ProcessController {
   async main() {
     try {
       const { batch } = await BatchController.findOne();
-
-      const year = moment().format("YYYY");
-      const date = moment(`${year}-05-01`).format("YYYY-MM-DD");
-
       const averbations = await Averbations.findAll({
         include: [
           {
@@ -29,11 +25,15 @@ class ProcessController {
           },
         ],
         where: {
-          id: {
-            [Op.in]: [88904],
+          send_insurance_system: false,
+          is_pending: false,
+          insurance_system: "simetrias",
+          simetrias_anchor: {
+            [Op.not]: null,
           },
-          smartbox_id: 312,
+          '$Smartbox->InsuranceCompany.envio_habilitado$': true
         },
+        limit: batch,
       });
 
       console.log("quantidade de averbações", averbations.length);

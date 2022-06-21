@@ -207,6 +207,22 @@ const AverbationsSchema = {
     field: "multimodal",
     defaultValue: false,
   },
+  is_ocd: {
+    type: DataTypes.BOOLEAN,
+    field: "ocd",
+  },
+  is_ocdi: {
+    type: DataTypes.BOOLEAN,
+    field: "ocdi",
+  },
+  profit_value: {
+    type: DataTypes.DOUBLE,
+    field: "valor_lucro_esperado",
+  },
+  breakdown_value: {
+    type: DataTypes.DOUBLE,
+    field: "valor_avarias",
+  },
 };
 
 const AverbationsOptions = {
