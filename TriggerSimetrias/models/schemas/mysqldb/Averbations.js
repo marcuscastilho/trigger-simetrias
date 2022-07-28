@@ -223,6 +223,14 @@ const AverbationsSchema = {
     type: DataTypes.DOUBLE,
     field: "valor_avarias",
   },
+  plate: {
+    type: DataTypes.STRING,
+    field: "placa",
+  },
+  complementary_transport_type: {
+    type: DataTypes.BOOLEAN,
+    field: "tipo_transporte_complementar",
+  },
 };
 
 const AverbationsOptions = {

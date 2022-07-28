@@ -41,11 +41,10 @@ module.exports = {
       },
     };
 
-
     const response = await soap.soapRequest({}, json);
 
-    const { ReceberConhecimentosResponse } = response.json;
 
+    const { ReceberConhecimentosResponse } = response.json;
 
     if (!ReceberConhecimentosResponse) {
       return;
@@ -55,6 +54,6 @@ module.exports = {
 
     const { Codigo, Descricao } = ReceberConhecimentosResult.CTE.viagem;
 
-    return { description: Descricao, code: Codigo }
+    return { description: Descricao, code: Codigo };
   },
 };

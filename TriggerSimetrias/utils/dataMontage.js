@@ -42,7 +42,7 @@ module.exports = {
         valor_segurado_despesa: "",
         valor_segurado_lucros: String(assure.profit_value).replace(".", ","),
         valor_segurado_impostos: String(assure.taxes_value).replace(".", ","),
-        identificacao_veiculo: "ABC1234",
+        identificacao_veiculo: assure.plate,
         indicativo_cobertura_rcfdc: isRcfdc(assure),
         tipo_mercadoria: "G",
         indicativo_operacao_ocd: assure.is_ocd ? "S" : "N",
@@ -134,6 +134,13 @@ module.exports = {
           BD: data.cnpj_emissor,
         },
       };
+
+      if (assure.token_simetrias) {
+        xml.autenticacao = {
+          codigoFornecedor: 8,
+          token: assure.token_simetrias,
+        };
+      }
 
       const document = {
         id: assure.id,

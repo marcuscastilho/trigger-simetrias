@@ -35,6 +35,15 @@ const SmartboxesSchema = {
     allowNull: false,
     field: "averbacao_acima_lmg",
   },
+  token_simetrias: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  environment: {
+    type: DataTypes.ENUM('homologacao', 'producao'),
+    allowNull: false,
+    field: "ambiente"
+  },
   created_at: DataTypes.DATE,
   updated_at: DataTypes.DATE,
 };

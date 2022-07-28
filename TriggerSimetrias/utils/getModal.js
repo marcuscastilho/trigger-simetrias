@@ -1,5 +1,9 @@
 module.exports = {
   getModel: (assure) => {
+    if (assure.complementary_transport_type == "fluvial") {
+      return "RF";
+    }
+
     const objectModal = {
       rodoviario: "R",
       aereo: "A",

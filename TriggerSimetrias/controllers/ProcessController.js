@@ -31,7 +31,8 @@ class ProcessController {
           simetrias_anchor: {
             [Op.not]: null,
           },
-          '$Smartbox->InsuranceCompany.envio_habilitado$': true
+          '$Smartbox->InsuranceCompany.envio_habilitado$': true,
+          '$Smartbox.ambiente$': 'producao'
         },
         limit: batch,
       });
