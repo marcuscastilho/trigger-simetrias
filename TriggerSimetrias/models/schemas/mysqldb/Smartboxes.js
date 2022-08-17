@@ -44,6 +44,10 @@ const SmartboxesSchema = {
     allowNull: false,
     field: "ambiente"
   },
+  production_date: {
+    type: DataTypes.DATE,
+    field: "data_producao",
+  },
   created_at: DataTypes.DATE,
   updated_at: DataTypes.DATE,
 };

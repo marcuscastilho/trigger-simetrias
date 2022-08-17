@@ -8,13 +8,13 @@ module.exports = {
       rodoviario: "R",
       aereo: "A",
       aquaviario: "M",
-      ferroviario: null,
-      dutoviario: null,
-      multimodal: null,
+      ferroviario: "",
+      dutoviario: "",
+      multimodal: "",
     };
 
     const { transport_type } = assure;
 
-    return objectModal[transport_type] || null;
+    return objectModal[transport_type] || "";
   },
 };

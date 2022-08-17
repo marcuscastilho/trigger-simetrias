@@ -135,6 +135,7 @@ module.exports = {
         },
       };
 
+
       if (assure.token_simetrias) {
         xml.autenticacao = {
           codigoFornecedor: 8,

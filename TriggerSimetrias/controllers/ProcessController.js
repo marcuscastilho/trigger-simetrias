@@ -31,20 +31,25 @@ class ProcessController {
           simetrias_anchor: {
             [Op.not]: null,
           },
-          '$Smartbox->InsuranceCompany.envio_habilitado$': true,
-          '$Smartbox.ambiente$': 'producao'
+          "$Smartbox->InsuranceCompany.envio_habilitado$": true,
+          "$Smartbox.ambiente$": "producao",
         },
-        limit: batch,
       });
 
       console.log("quantidade de averbações", averbations.length);
+
+      
       for (const averbation of averbations) {
         try {
           if (
             averbation.document_type == "mdfe" &&
             averbation.Smartbox.InsuranceCompany.cnpj == "33.164.021/0001-00"
           ) {
-            continue;
+            throw new Error('não enviar mdfe para a Tokio')
+          }
+
+          if(moment(averbation.averbation_date).format('YYYY-MM-DD') < averbation.Smartbox.production_date){
+            throw new Error('data de averbação é menor que a data de liberado para produção')
           }
 
           const worked_data = dataMontage(averbation);

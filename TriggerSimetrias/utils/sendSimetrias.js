@@ -27,20 +27,6 @@ module.exports = {
       },
     };
 
-    const soapObject = {
-      "soap12:Envelope": {
-        attrs: {
-          "xmlns:soap12": "http://www.w3.org/2003/05/soap-envelope",
-          ...soap.defaultEnvelopeAttrs,
-          ...soap.envelopeAttrs,
-        },
-        value: {
-          "soap12:Header": {},
-          "soap12:Body": json,
-        },
-      },
-    };
-
     const response = await soap.soapRequest({}, json);
 
 

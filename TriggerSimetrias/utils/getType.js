@@ -5,6 +5,6 @@ module.exports = {
     if (document_type == "smartdoc") return "C";
     if (document_type == "nfe") return "N";
     if (document_type == "mdfe") return "M";
-    return null;
+    return "";
   },
 };

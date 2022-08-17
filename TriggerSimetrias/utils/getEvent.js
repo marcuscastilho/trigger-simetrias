@@ -4,6 +4,7 @@ module.exports = {
   
       if (event_code == 100) return "E";
       if (event_code == 101) return "C";
-      return null;
+      if (event_code == 135) return "C";
+      return "";
   }
 }
